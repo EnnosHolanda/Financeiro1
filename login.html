@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Financeiro Clinica Dr. Leonardo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #f4d03f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244,208,63,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-form {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input:hover {
+            border-color: #ced4da;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .forgot-password {
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #1e3c72;
+            text-decoration: underline;
+        }
+
+        .login-footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .demo-credentials {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .demo-credentials h4 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .demo-credentials p {
+            color: #856404;
+            margin: 3px 0;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .login-header {
+                padding: 30px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 1.8em;
+            }
+            
+            .login-form {
+                padding: 30px 20px;
+            }
+            
+            .remember-forgot {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        /* Animação de loading no botão */
+        .login-btn.loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        .login-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s ease infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Sistema Financeiro</h1>
+            <p>Clínica Oftalmológica Dr. Leonardo</p>
+        </div>
+
+        <div class="login-form">
+            <div class="demo-credentials">
+                <h4>🔑 Credenciais de Demonstração</h4>
+                <p><strong>Usuário:</strong> admin</p>
+                <p><strong>Senha:</strong> clinica2024</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                </div>
+
+                <div class="remember-forgot">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        Lembrar-me
+                    </label>
+                    <a href="#" class="forgot-password" onclick="showForgotPassword()">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    Entrar no Sistema
+                </button>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            <p>&copy; 2024 Clínica Oftalmológica Dr. Leonardo</p>
+            <p>Sistema de Gestão Financeira</p>
+        </div>
+    </div>
+
+    <script>
+        // Credenciais válidas (em produção, isso seria verificado no servidor)
+        const validCredentials = {
+            'admin': 'clinica2024',
+            'leonardo': 'doutor123',
+            'financeiro': 'sistema2024'
+        };
+
+        // Elementos do DOM
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const rememberMe = document.getElementById('rememberMe');
+
+        // Verificar se há credenciais salvas
+        window.addEventListener('load', function() {
+            const savedUsername = localStorage.getItem('savedUsername');
+            const savedRemember = localStorage.getItem('rememberMe');
+            
+            if (savedUsername && savedRemember === 'true') {
+                usernameInput.value = savedUsername;
+                rememberMe.checked = true;
+            }
+        });
+
+        // Função para mostrar mensagens
+        function showMessage(message, type = 'error') {
+            hideMessages();
+            
+            if (type === 'error') {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            } else {
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+            }
+            
+            // Auto-hide após 5 segundos
+            setTimeout(hideMessages, 5000);
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        // Função de login
+        function performLogin(username, password) {
+            return new Promise((resolve, reject) => {
+                // Simular delay de rede
+                setTimeout(() => {
+                    if (validCredentials[username] && validCredentials[username] === password) {
+                        resolve({ success: true, user: username });
+                    } else {
+                        reject({ success: false, message: 'Usuário ou senha incorretos!' });
+                    }
+                }, 1500);
+            });
+        }
+
+        // Event listener do formulário
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (!username || !password) {
+                showMessage('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Adicionar estado de loading
+            loginBtn.classList.add('loading');
+            loginBtn.textContent = 'Entrando...';
+            loginBtn.disabled = true;
+            hideMessages();
+            
+            try {
+                const result = await performLogin(username, password);
+                
+                // Salvar credenciais se "lembrar-me" estiver marcado
+                if (rememberMe.checked) {
+                    localStorage.setItem('savedUsername', username);
+                    localStorage.setItem('rememberMe', 'true');
+                } else {
+                    localStorage.removeItem('savedUsername');
+                    localStorage.removeItem('rememberMe');
+                }
+                
+                // Salvar sessão do usuário
+                sessionStorage.setItem('userLoggedIn', 'true');
+                sessionStorage.setItem('currentUser', username);
+                
+                showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                
+                // Redirecionar após 2 segundos
+                setTimeout(() => {
+                    // Em uma aplicação real, você redirecionaria para a página principal
+                    alert('Redirecionamento para o sistema principal!\n\nEm produção, isso levaria você para o dashboard do sistema financeiro.');
+                    
+                    // Simular redirecionamento resetando o formulário
+                    loginForm.reset();
+                    hideMessages();
+                }, 2000);
+                
+            } catch (error) {
+                showMessage(error.message);
+            } finally {
+                // Remover estado de loading
+                loginBtn.classList.remove('loading');
+                loginBtn.textContent = 'Entrar no Sistema';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Função para esqueceu a senha
+        function showForgotPassword() {
+            alert('Funcionalidade "Esqueceu a senha" ainda não implementada.\n\nEm produção, isso abriria um formulário para recuperação de senha por email.');
+        }
+
+        // Adicionar efeitos de foco nos inputs
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Permitir login com Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !loginBtn.disabled) {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Easter egg - duplo clique no título
+        document.querySelector('.login-header h1').addEventListener('dblclick', function() {
+            this.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)';
+            this.style.backgroundSize = '400% 400%';
+            this.style.webkitBackgroundClip = 'text';
+            this.style.webkitTextFillColor = 'transparent';
+            this.style.animation = 'gradient 3s ease infinite';
+            
+            // Adicionar keyframes dinamicamente
+            if (!document.querySelector('#rainbow-animation')) {
+                const style = document.createElement('style');
+                style.id = 'rainbow-animation';
+                style.textContent = `
+                    @keyframes gradient {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        });
+    </script>
+</body>
+</html>
